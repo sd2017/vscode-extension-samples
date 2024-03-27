@@ -1,22 +1,93 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+
+// export function activate(context: vscode.ExtensionContext) {
+
+// 	const provider = new ColorsViewProvider(context.extensionUri);
+
+// 	context.subscriptions.push(
+// 		vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
+
+// 	context.subscriptions.push(
+// 		vscode.commands.registerCommand('calicoColors.addColor', () => {
+// 			provider.addColor();
+// 		}));
+
+// 	context.subscriptions.push(
+// 		vscode.commands.registerCommand('calicoColors.clearColors', () => {
+// 			provider.clearColors();
+// 		}));
+// }
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const provider = new ColorsViewProvider(context.extensionUri);
+	const provider = new NoteViewProvider(context.extensionUri);
 
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
+		vscode.window.registerWebviewViewProvider(NoteViewProvider.viewType, provider));
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand('calicoColors.addColor', () => {
-			provider.addColor();
-		}));
+	// context.subscriptions.push(
+	// 	vscode.commands.registerCommand('calicoColors.addColor', () => {
+	// 		provider.addColor();
+	// 	}));
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand('calicoColors.clearColors', () => {
-			provider.clearColors();
-		}));
+	// context.subscriptions.push(
+	// 	vscode.commands.registerCommand('calicoColors.clearColors', () => {
+	// 		provider.clearColors();
+	// 	}));
 }
+
+class NoteViewProvider implements vscode.WebviewViewProvider {
+
+	public static readonly viewType = 'calicoColors.colorsView';
+
+	private _view?: vscode.WebviewView;
+
+    constructor(
+		private readonly _extensionUri: vscode.Uri
+		) { }
+
+    public resolveWebviewView(
+		webviewView: vscode.WebviewView
+		) {
+        this._view = webviewView;
+
+        webviewView.webview.options = {
+            enableScripts: true,
+            localResourceRoots: [this._extensionUri]
+        };
+
+        this.updateContent();
+    }
+
+    private updateContent() {
+        if (!this._view) {
+            return;
+		}
+        const notePath = ('/home/dev/note.md');
+        const data = fs.readFileSync(notePath, 'utf8');
+		if (this._view){
+			this._view.webview.html = `<h1>Note</h1><pre>${data}</pre>`;
+			console.log(data);
+		}
+
+		// fs.readFile(notePath, 'utf8', (err, data) => {
+        //     if (err) {
+        //         if (this._view){
+		// 			this._view.webview.html = `<h1>Error</h1><p>Could not read note.md</p>`;
+		// 		}
+		// 	} else {
+		// 		if (this._view){
+		// 			this._view.webview.html = `<h1>Error</h1><p>Could not read note.md</p>`;
+		// 			//this._view.webview.html = `<h1>Note</h1><pre>${data}</pre>`;
+		// 			console.log(data);
+		// 		}
+        //     }
+        // });
+
+	}
+}
+
 
 class ColorsViewProvider implements vscode.WebviewViewProvider {
 
