@@ -19,15 +19,30 @@
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [],
+	"activationEvents": [  "onView:commandList"],
 	"main": "./out/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+			  {
+				"id": "commandList",
+				"title": "CommandList",
+				"icon": "resources/icon.svg"
+			  }
+			]
+			  },
 		"views": {
 			"explorer": [
 				{
 					"type": "webview",
 					"id": "calicoColors.colorsView",
 					"name": "Calico Colors"
+				}
+			],
+			"commandList": [
+				{
+					"id": "commandLists",
+					"name": "Command List"
 				}
 			]
 		},
