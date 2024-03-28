@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 class NoteViewProvider implements vscode.WebviewViewProvider {
 
-	public static readonly viewType = 'calicoColors.colorsView';
+	public static readonly viewType = 'commandListsView';
 
 	private _view?: vscode.WebviewView;
 

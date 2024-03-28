@@ -41,7 +41,8 @@
 			],
 			"commandList": [
 				{
-					"id": "commandLists",
+					"type": "webview",
+					"id": "commandListsView",
 					"name": "Command List"
 				}
 			]
