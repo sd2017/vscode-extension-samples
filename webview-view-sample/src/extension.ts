@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import * as path from 'path';
 
+import markdownIt = require('markdown-it');
+//import MarkdownIt from 'markdown-it';
 // export function activate(context: vscode.ExtensionContext) {
 
 // 	const provider = new ColorsViewProvider(context.extensionUri);
@@ -21,7 +24,7 @@ import * as fs from 'fs';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const provider = new NoteViewProvider(context.extensionUri);
+	const provider = new NoteViewProvider(context);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(NoteViewProvider.viewType, provider));
@@ -42,10 +45,13 @@ class NoteViewProvider implements vscode.WebviewViewProvider {
 	public static readonly viewType = 'commandListsView';
 
 	private _view?: vscode.WebviewView;
-
+    private readonly _extensionUri: vscode.Uri;
     constructor(
-		private readonly _extensionUri: vscode.Uri
-		) { }
+		private readonly context: vscode.ExtensionContext
+
+		) {
+			this._extensionUri = this.context.extensionUri;
+		}
 
     public resolveWebviewView(
 		webviewView: vscode.WebviewView
@@ -60,14 +66,22 @@ class NoteViewProvider implements vscode.WebviewViewProvider {
         this.updateContent();
     }
 
-    private updateContent() {
+	private getWebviewContent(data: string ) {
+		const md =  new markdownIt();
+		const html = md.render(data);
+		return html;
+	}
+
+	private updateContent() {
         if (!this._view) {
             return;
 		}
-        const notePath = ('/home/dev/note.md');
+		const notePath = path.join(this.context.extensionPath, 'note.md');
+        //const notePath = ('/home/dev/note.md');
         const data = fs.readFileSync(notePath, 'utf8');
 		if (this._view){
-			this._view.webview.html = `<h1>Note</h1><pre>${data}</pre>`;
+			// this._view.webview.html = `<h1>Note</h1><md-block>${data}</md-block>`;
+			this._view.webview.html = this.getWebviewContent(data);
 			console.log(data);
 		}
 
