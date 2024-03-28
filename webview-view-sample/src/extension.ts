@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as marked from 'marked';
 
 import markdownIt = require('markdown-it');
 //import MarkdownIt from 'markdown-it';
@@ -66,10 +67,17 @@ class NoteViewProvider implements vscode.WebviewViewProvider {
         this.updateContent();
     }
 
-	private getWebviewContent(data: string ) {
+	private getWebviewContent(data: string ): Promise<string> {
 		const md =  new markdownIt();
-		const html = md.render(data);
-		return html;
+		// const html = md.render(data);
+		marked.setOptions({
+			renderer: new marked.Renderer(),
+			gfm: true,
+			breaks: false,
+			pedantic: false,
+		});
+		return Promise.resolve(marked.parse(data));
+
 	}
 
 	private updateContent() {
@@ -81,8 +89,14 @@ class NoteViewProvider implements vscode.WebviewViewProvider {
         const data = fs.readFileSync(notePath, 'utf8');
 		if (this._view){
 			// this._view.webview.html = `<h1>Note</h1><md-block>${data}</md-block>`;
-			this._view.webview.html = this.getWebviewContent(data);
-			console.log(data);
+			//this._view.webview.html = this.getWebviewContent(data);
+			this.getWebviewContent(data).then(result => {
+				if (this._view){
+					this._view.webview.html = result;
+					console.log(result);
+				}
+			});
+
 		}
 
 		// fs.readFile(notePath, 'utf8', (err, data) => {

@@ -1,39 +1,38 @@
 # Shortcuts
 
-## vscode
+>## vscode
 
 ---
 
-### Activity Bar
+### *Activity Bar*
 
-**Explorer**     Ctrl+Shift+E
+**Explorer**     Ctrl+Shift+E  
+**Explorer**     Ctrl+Shift+E  
+**Extentions**   Ctrl+Shift+X  
+**Run-Debug**    Ctrl+Shift+D  
+**Search**       Ctrl+Shift+F  
+**Source**       Ctrl+Shift+G  
 
-**Extentions**   Ctrl+Shift+X
+### *No Project Window*
 
-**Run-Debug**    Ctrl+Shift+D
+**Open Recent**   Ctrl+R  
 
-**Search**       Ctrl+Shift+F
-
-**Source**       Ctrl+Shift+G
-
-### No Project Window
-
-**Open Recent**   Ctrl+R
-
-## vim
+>## vim
 
 ---
 
-### Navigate
+### *Navigate*
 
-**Start** g
 
-**End**   G
+**Start** g  
+**End**   G  
 
-## Ubuntu
+>## Ubuntu
 
 ---
 
-### Wayland config
+### *Wayland*
 
 **Enable** /etc/gdm3/custom.conf  WaylandEnable=false
+
+
