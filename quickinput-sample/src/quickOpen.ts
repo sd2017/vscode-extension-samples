@@ -23,7 +23,7 @@ export async function quickOpen() {
 	}
 }
 
-class FileItem implements QuickPickItem {
+class FileItem implements QuickPickItem { //shoshan pick item based on existing files
 
 	label: string;
 	description: string;
