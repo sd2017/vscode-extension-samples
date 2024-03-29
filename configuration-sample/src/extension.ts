@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// 1) Getting the value
 		const value = await vscode.window.showQuickPick(['explorer', 'search', 'scm', 'debug', 'extensions'], { placeHolder: 'Select the view to show when opening a window.' });
-
+        // shoshan: when window config commands  opened  quick pick options 
 		if (vscode.workspace.workspaceFolders) {
 
 			// 2) Getting the Configuration target
