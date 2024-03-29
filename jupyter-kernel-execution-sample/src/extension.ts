@@ -96,7 +96,7 @@ const codeSnippets = new Map([
 	['Print to StdErr', printToStdErr],
 	['Throw an Error', throwAnError],
 ]);
-
+//shoshan quick snipped pick code
 async function selectCodeToRunAgainstKernel() {
 	const selection = await window.showQuickPick(Array.from(codeSnippets.keys()), {
 		placeHolder: 'Select code to execute against the kernel',
